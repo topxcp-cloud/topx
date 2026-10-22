@@ -48,6 +48,13 @@ test('visualizer loader and lab route are disconnected from app navigation', () 
   assert.doesNotMatch(routeFeature, /\blab\s*:/);
 });
 
+test('/login renders the standalone auth gate instead of the legacy homepage shell', () => {
+  const loginPage = read('app/(auth)/login/page.tsx');
+
+  assert.match(loginPage, /AuthGate/);
+  assert.doesNotMatch(loginPage, /legacy-src\/AppShell/);
+});
+
 test('preloader plays the supplied intro clip in slow motion and reveals the homepage at its end', () => {
   const preloader = read('components/shell/TopxPreloader.jsx');
   const styles = read('components/shell/topx-preloader.css');
