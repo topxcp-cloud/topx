@@ -68,7 +68,7 @@ export default function AppFooter() {
             <ul className={styles.linkList}>
               {/* <li><Link href="/about" className={styles.linkItem}>About Top-X</Link></li> */}
               {/* <li><Link href="/leaderboard" className={styles.linkItem}>Hall of Fame</Link></li> */}
-              <li><Link href="/events" className={styles.linkItem}>Contest Registration</Link></li>
+              <li><Link href="/events" className={styles.linkItem}>Event Registration</Link></li>
               {/* <li><Link href="/about" className={styles.linkItem}>Community Standards</Link></li> */}
             </ul>
           </div>
