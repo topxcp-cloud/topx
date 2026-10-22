@@ -234,7 +234,6 @@ export default function AppHeader({ onOpenAuth }) {
   const isLeaderboardActive = pathname === '/leaderboard';
   const isEventsActive = pathname === '/events';
   const isGuidesActive = pathname === '/contests';
-  const isResourcesActive = pathname === '/problems' || pathname === '/roadmap';
   const isProfileActive = pathname === '/profile' || pathname === '/settings';
 
   const logoRef = useRef(null);

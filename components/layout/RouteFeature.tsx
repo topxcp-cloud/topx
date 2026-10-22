@@ -8,8 +8,6 @@ import AuthGate from '../legacy-src/components/shell/AuthGate.jsx';
 import StudentProfileSetup from '../legacy-src/components/shell/StudentProfileSetup.jsx';
 import { hasRequiredStudentProfile } from '../legacy-src/features/profile/studentProfileOptions.js';
 import LeaderboardView from '../leaderboard/Leaderboard';
-import VaultView from '../legacy-src/components/views/VaultView.jsx';
-import RoadmapsView from '../legacy-src/components/views/RoadmapsView.jsx';
 import TasksView from '../legacy-src/components/views/TasksView.jsx';
 import ProfileView from '../legacy-src/components/views/ProfileView.jsx';
 import GuidesView from '../legacy-src/components/views/GuidesView.jsx';
@@ -18,15 +16,11 @@ import ProView from '../legacy-src/components/views/ProView.jsx';
 import AdminView from '../legacy-src/components/views/AdminView.jsx';
 
 const VIEW_MAP: Record<string, any> = {
-  roadmap: RoadmapsView,
-  problems: VaultView,
   progress: TasksView,
   leaderboard: LeaderboardView,
   contests: GuidesView,
   profile: ProfileView,
   settings: ProfileView,
-  roadmaps: RoadmapsView,
-  vault: VaultView,
   tasks: TasksView,
   guides: GuidesView,
   blueprints: BlueprintsView,

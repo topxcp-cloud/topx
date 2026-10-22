@@ -4,8 +4,6 @@ const ITEMS = [
   ['Weekly Tasks','/progress','Practice tasks and verification'],
   ['Leaderboard','/leaderboard','Community standings'],
   ['Guides','/contests','CS learning resources'],
-  ['Problem Vault','/problems','Curated interview problems'],
-  ['Roadmaps','/roadmap','DSA and competitive programming tracks'],
   ['Profile','/profile','Account and platform sync'],
   ['Admin Console','/admin','Protected content management']
 ];

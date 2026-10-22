@@ -7,11 +7,12 @@ function walk(dir) { return fs.readdirSync(dir, { withFileTypes: true }).flatMap
 const sources = walk(root).filter(f => /\.(jsx|js)$/.test(f));
 test('React source tree includes independently owned feature views and shared data', () => {
   assert.ok(sources.length >= 15, `Expected React source files, found ${sources.length}`);
-  for (const name of ['BlueprintsView.jsx', 'RoadmapsView.jsx', 'GuidesView.jsx', 'ProView.jsx']) assert.ok(fs.existsSync(path.join(root, 'components', 'views', name)), `${name} is missing`);
+  for (const name of ['BlueprintsView.jsx', 'GuidesView.jsx', 'ProView.jsx']) assert.ok(fs.existsSync(path.join(root, 'components', 'views', name)), `${name} is missing`);
+  for (const name of ['VaultView.jsx', 'RoadmapsView.jsx']) assert.equal(fs.existsSync(path.join(root, 'components', 'views', name)), false, `${name} should be removed`);
   assert.ok(fs.existsSync(path.join(root, 'features', 'content', 'contentData.js')));
 });
 test('remaining feature views render declaratively rather than mutating legacy DOM nodes', () => {
-  for (const name of ['BlueprintsView.jsx', 'RoadmapsView.jsx', 'GuidesView.jsx', 'ProView.jsx']) {
+  for (const name of ['BlueprintsView.jsx', 'GuidesView.jsx', 'ProView.jsx']) {
     const source = fs.readFileSync(path.join(root, 'components', 'views', name), 'utf8');
     assert.match(source, /useState|useEffect|useMemo|useCallback/);
     assert.doesNotMatch(source, /document\.getElementById|innerHTML\s*=/, `${name} should render declaratively in React`);

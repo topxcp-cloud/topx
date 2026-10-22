@@ -16,15 +16,13 @@ import ProView from './components/views/ProView.jsx';
 import TasksView from './components/views/TasksView.jsx';
 import GuidesView from './components/views/GuidesView.jsx';
 import ProfileView from './components/views/ProfileView.jsx';
-import RoadmapsView from './components/views/RoadmapsView.jsx';
 import BlueprintsView from './components/views/BlueprintsView.jsx';
-import VaultView from './components/views/VaultView.jsx';
 import LeaderboardView from './components/views/LeaderboardView.jsx';
 import DashboardView from './components/views/DashboardView.jsx';
 
 const VIEWS = [
-  ['dashboard', DashboardView], ['leaderboard', LeaderboardView], ['vault', VaultView],
-  ['blueprints', BlueprintsView], ['roadmaps', RoadmapsView],
+  ['dashboard', DashboardView], ['leaderboard', LeaderboardView],
+  ['blueprints', BlueprintsView],
   ['profile', ProfileView], ['guides', GuidesView], ['tasks', TasksView],
   ['pro', ProView], ['admin', AdminView]
 ];

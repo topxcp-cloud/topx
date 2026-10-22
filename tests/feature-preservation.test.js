@@ -41,6 +41,9 @@ test('visualizer loader and lab route are disconnected from app navigation', () 
   for (const source of [appShell, routeFeature, home]) {
     assert.doesNotMatch(source, /useFeatureRuntime|LabView/);
   }
+  assert.doesNotMatch(appShell, /VaultView|RoadmapsView|['"]vault['"]|['"]roadmaps['"]/);
+  assert.doesNotMatch(routeFeature, /VaultView|RoadmapsView|problems\s*:|roadmap\s*:/);
+  assert.doesNotMatch(navigation, /['"]vault['"]|['"]roadmaps['"]/);
   assert.doesNotMatch(navigation, /['"]lab['"]/);
   assert.doesNotMatch(routeFeature, /\blab\s*:/);
 });

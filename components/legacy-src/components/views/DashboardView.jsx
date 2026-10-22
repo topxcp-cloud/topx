@@ -53,8 +53,7 @@ export default function DashboardView({ active = false, user = null }) {
               </div>
             <p className="dash-why-text" id="dash-why-text">You've completed basic binary search. This problem introduces binary search on the answer domain with predicate monotonicity.</p>
             <div className="dash-hero-actions">
-              <a className="btn-primary" href="#vault">Solve problem →</a>
-              <a className="btn-link" href="#roadmaps">View full roadmap →</a>
+              <a className="btn-primary" href="#tasks">View weekly tasks →</a>
               </div>
             </div>
           </div>
@@ -103,7 +102,6 @@ export default function DashboardView({ active = false, user = null }) {
         <div className="dash-split-col">
           <div className="split-col-head">
             <h3>Curriculum Roadmap</h3>
-            <a href="#roadmaps">Explore all tracks →</a>
             </div>
           <svg id="rp-svg" viewBox="0 -10 780 340" />
           <div id="dag-tip" />
@@ -147,7 +145,6 @@ export default function DashboardView({ active = false, user = null }) {
         <div className="dash-split-col">
           <div className="split-col-head">
             <h3>Recent Problems</h3>
-            <a href="#vault">View Problem Vault →</a>
             </div>
           <table className="simple-table">
             <thead>
