@@ -6,6 +6,7 @@ import ScrollProgressBar from '@/components/shell/ScrollProgressBar';
 import PwaRegister from '@/components/pwa/PwaRegister';
 import CustomCursor from '@/components/shell/CustomCursor';
 import TopxPreloader from '@/components/shell/TopxPreloader';
+import { Analytics } from '@vercel/analytics/next';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <PwaRegister />
         <ScrollProgressBar />
         {children}
+        <Analytics />
       </body>
     </html>
   );
