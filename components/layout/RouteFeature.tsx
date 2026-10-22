@@ -42,6 +42,7 @@ export default function RouteFeature({ view, title }: { view: string; title?: st
   const View = VIEW_MAP[view] || TasksView;
   const isProtected = view === 'profile' || view === 'settings';
 
+  
   useEffect(() => {
     const handleProfileUpdated = (event: Event) => {
       const updatedUser = (event as CustomEvent).detail?.user;
@@ -49,9 +50,24 @@ export default function RouteFeature({ view, title }: { view: string; title?: st
         auth.setUser(updatedUser);
       }
     };
+
     window.addEventListener('topx:profile-updated', handleProfileUpdated);
-    return () => window.removeEventListener('topx:profile-updated', handleProfileUpdated);
+
+    return () =>
+      window.removeEventListener('topx:profile-updated', handleProfileUpdated);
   }, [auth.user?.id, auth.setUser]);
+
+
+  useEffect(() => {
+    const handleOpenAuth = () => setAuthModalOpen(true);
+
+    window.addEventListener('topx:open-auth', handleOpenAuth);
+
+    return () => {
+      window.removeEventListener('topx:open-auth', handleOpenAuth);
+    };
+  }, []);
+
 
   return (
     <div className="topx-react-app">
