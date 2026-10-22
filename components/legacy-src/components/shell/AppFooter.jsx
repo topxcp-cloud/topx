@@ -56,9 +56,9 @@ export default function AppFooter() {
             <h3 className={styles.colTitle}>ACCOUNT</h3>
             <ul className={styles.linkList}>
               <li><Link href="/profile" className={styles.linkItem}>My Profile</Link></li>
-              <li><Link href="/settings" className={styles.linkItem}>Account Settings</Link></li>
-              <li><Link href="/progress" className={styles.linkItem}>Streak Rewards</Link></li>
-              <li><Link href="/login" className={styles.linkItem}>Student Sign In</Link></li>
+              {/* <li><Link href="/settings" className={styles.linkItem}>Account Settings</Link></li> */}
+              {/* <li><Link href="/progress" className={styles.linkItem}>Streak Rewards</Link></li> */}
+              {/* <li><Link href="/login" className={styles.linkItem}>Student Sign In</Link></li> */}
             </ul>
           </div>
 
@@ -66,10 +66,10 @@ export default function AppFooter() {
           <div className={styles.column}>
             <h3 className={styles.colTitle}>COMMUNITY</h3>
             <ul className={styles.linkList}>
-              <li><Link href="/about" className={styles.linkItem}>About Top-X</Link></li>
-              <li><Link href="/leaderboard" className={styles.linkItem}>Hall of Fame</Link></li>
+              {/* <li><Link href="/about" className={styles.linkItem}>About Top-X</Link></li> */}
+              {/* <li><Link href="/leaderboard" className={styles.linkItem}>Hall of Fame</Link></li> */}
               <li><Link href="/events" className={styles.linkItem}>Contest Registration</Link></li>
-              <li><Link href="/about" className={styles.linkItem}>Community Standards</Link></li>
+              {/* <li><Link href="/about" className={styles.linkItem}>Community Standards</Link></li> */}
             </ul>
           </div>
         </div>
