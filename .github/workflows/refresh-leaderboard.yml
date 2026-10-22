@@ -39,8 +39,7 @@ jobs:
           MAX_BATCHES=1000
           while [ "$REMAINING" -gt 0 ] && [ "$BATCH" -le "$MAX_BATCHES" ]; do
             echo "--- Leaderboard batch $BATCH ---"
-            RESPONSE=$(curl --silent --show-error --max-time 55 -w "
-HTTP_STATUS:%{http_code}" -X POST \
+            RESPONSE=$(curl --silent --show-error --max-time 55 -w "\nHTTP_STATUS:%{http_code}" -X POST \
               "$BASE_URL/api/cron/refresh-leaderboard?limit=$BATCH_SIZE" \
               -H "Authorization: Bearer $CRON_SECRET" -H "Content-Type: application/json")
             HTTP_BODY=$(echo "$RESPONSE" | sed '$d')
