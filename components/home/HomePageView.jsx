@@ -636,16 +636,20 @@ export default function HomePageView() {
                 </p>
               </div>
 
-              {/* Step 4: 75-Day T-shirt */}
-              <div className="tx-milestone-card final">
-                <span className="tx-milestone-step" style={{ color: 'var(--ac)' }}>MILESTONE 04</span>
-                <span className="tx-milestone-day">75-Day Streak</span>
-                <h3 className="tx-milestone-reward">Top X T-Shirt</h3>
-                <p className="tx-milestone-desc">
-                  Complete 75 consecutive qualifying days to become eligible for the official Top-X developer t-shirt.
-                </p>
-              </div>
-            </div>
+              
+{/* Step 4: 75-Day Elite Reward */}
+<div className="tx-milestone-card final">
+  <span className="tx-milestone-step" style={{ color: 'var(--ac)' }}>
+    MILESTONE 04
+  </span>
+  <span className="tx-milestone-day">75-Day Streak</span>
+  <h3 className="tx-milestone-reward">Top-X Elite Reward</h3>
+  <p className="tx-milestone-desc">
+    Stay consistent for 75 consecutive qualifying days to unlock
+    exclusive reward and recognition from the Top-X community.
+  </p>
+</div>
+
 
             {/* Official Qualification Disclaimer */}
             <div className="tx-roadmap-disclaimer tx-reveal">
