@@ -638,22 +638,24 @@ export default function HomePageView() {
 
               
 
-{/* Step 4: 75-Day Elite Reward */}
-<div className="tx-milestone-card final">
-  <span
-    className="tx-milestone-step"
-    style={{ color: 'var(--ac)' }}
-  >
-    MILESTONE 04
-  </span>
-  <span className="tx-milestone-day">75-Day Streak</span>
-  <h3 className="tx-milestone-reward">Top-X Elite Reward</h3>
-  <p className="tx-milestone-desc">
-    Stay consistent for 75 consecutive qualifying days to unlock
-    exclusive rewards and recognition from the Top-X community.
-  </p>
-</div>
 
+              {/* Step 4: 75-Day Elite Reward */}
+              <div className="tx-milestone-card final">
+                <span
+                  className="tx-milestone-step"
+                  style={{ color: 'var(--ac)' }}
+                >
+                  MILESTONE 04
+                </span>
+                <span className="tx-milestone-day">75-Day Streak</span>
+                <h3 className="tx-milestone-reward">Top-X Elite Reward</h3>
+                <p className="tx-milestone-desc">
+                  Stay consistent for 75 consecutive qualifying days to unlock
+                  exclusive rewards and recognition from the Top-X community.
+                </p>
+              </div>
+
+            </div> {/* Close tx-roadmap-timeline */}
 
             {/* Official Qualification Disclaimer */}
             <div className="tx-roadmap-disclaimer tx-reveal">
@@ -661,6 +663,7 @@ export default function HomePageView() {
             </div>
           </div>
         </section>
+
 
         {/* =================================================================
             COMMUNITY CONSISTENCY SHOWCASE (PRESERVED LEADERBOARD PREVIEW)
