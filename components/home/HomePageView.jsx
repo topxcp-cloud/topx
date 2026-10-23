@@ -637,16 +637,20 @@ export default function HomePageView() {
               </div>
 
               
+
 {/* Step 4: 75-Day Elite Reward */}
 <div className="tx-milestone-card final">
-  <span className="tx-milestone-step" style={{ color: 'var(--ac)' }}>
+  <span
+    className="tx-milestone-step"
+    style={{ color: 'var(--ac)' }}
+  >
     MILESTONE 04
   </span>
   <span className="tx-milestone-day">75-Day Streak</span>
   <h3 className="tx-milestone-reward">Top-X Elite Reward</h3>
   <p className="tx-milestone-desc">
     Stay consistent for 75 consecutive qualifying days to unlock
-    exclusive reward and recognition from the Top-X community.
+    exclusive rewards and recognition from the Top-X community.
   </p>
 </div>
 
