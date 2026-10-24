@@ -34,6 +34,19 @@ test('queue skips deferred failures and prioritizes stalest healthy users', () =
   assert.deepEqual(policy.selectDueUsers(users, now).map(user => user.id), ['oldest', 'newer']);
 });
 
+test('recently successful users are excluded until the freshness window expires', () => {
+  const now = Date.parse('2026-10-24T12:00:00Z');
+  const fresh = { id: 'fresh', cronSync: { lastSuccessAt: new Date(now - 60_000).toISOString() } };
+  const stale = { id: 'stale', cronSync: { lastSuccessAt: new Date(now - 21 * 60 * 60 * 1000).toISOString() } };
+  const neverSynced = { id: 'never' };
+
+  assert.equal(policy.isRecentlySynced(fresh.cronSync, now), true);
+  assert.equal(policy.isRecentlySynced(stale.cronSync, now), false);
+  assert.equal(policy.isRecentlySynced(undefined, now), false);
+  assert.deepEqual(policy.selectDueUsers([fresh, stale, neverSynced], now).map(user => user.id), ['stale', 'never']);
+  assert.deepEqual(policy.selectDueUsers([fresh], now, true).map(user => user.id), ['fresh']);
+});
+
 test('budget guard leaves room for one slow provider sync', () => {
   const start = 1000;
   assert.equal(policy.canStartNextUser(start, 38_000, start + 15_000), true);

@@ -9,6 +9,11 @@ on:
         description: 'Maximum users to attempt per request (safe range 1-10)'
         required: false
         default: '10'
+      force:
+        description: 'Force recently successful users to sync (default: false)'
+        required: false
+        default: false
+        type: boolean
 
 # Keep scheduled/manual runs from overlapping and duplicating provider API calls.
 concurrency:
@@ -25,6 +30,7 @@ jobs:
           APP_ORIGIN: ${{ secrets.APP_ORIGIN || secrets.VERCEL_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           BATCH_SIZE: ${{ github.event.inputs.batch_size || '10' }}
+          FORCE: ${{ github.event.inputs.force || 'false' }}
         run: |
           set -euo pipefail
           if [ -z "$APP_ORIGIN" ] || [ -z "$CRON_SECRET" ]; then
@@ -39,8 +45,10 @@ jobs:
           MAX_BATCHES=1000
           while [ "$REMAINING" -gt 0 ] && [ "$BATCH" -le "$MAX_BATCHES" ]; do
             echo "--- Leaderboard batch $BATCH ---"
+            FORCE_QUERY=""
+            if [ "$FORCE" = "true" ]; then FORCE_QUERY="&force=1"; fi
             RESPONSE=$(curl --silent --show-error --max-time 55 -w "\nHTTP_STATUS:%{http_code}" -X POST \
-              "$BASE_URL/api/cron/refresh-leaderboard?limit=$BATCH_SIZE" \
+              "$BASE_URL/api/cron/refresh-leaderboard?limit=$BATCH_SIZE$FORCE_QUERY" \
               -H "Authorization: Bearer $CRON_SECRET" -H "Content-Type: application/json")
             HTTP_BODY=$(echo "$RESPONSE" | sed '$d')
             HTTP_STATUS=$(echo "$RESPONSE" | tail -n1 | cut -d':' -f2)
