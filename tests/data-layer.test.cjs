@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createDataLayer } = require('../lib/api/data-layer.cjs');
 const { migrateLegacyData } = require('../lib/api/legacy-migration.cjs');
+const { activityMetrics } = require('../lib/api/submission-activity.cjs');
 
 function createUserStore(initialUsers) {
   const users = new Map(initialUsers.map(user => [
@@ -190,6 +191,60 @@ test('legacy migration is idempotent and leaves its backup data untouched', asyn
   assert.equal(transactionCount, 1);
   assert.deepEqual([...migratedIds], []);
   assert.deepEqual(legacyData, backupBeforeMigration);
+});
+
+test('submission streak is evaluated as of the last successful sync', () => {
+  const routeRegistry = fs.readFileSync(
+    path.join(__dirname, '..', 'lib/api/route-registry.cjs'),
+    'utf8'
+  );
+  const helperSource = routeRegistry.slice(
+    routeRegistry.indexOf('function streakAsOfDate'),
+    routeRegistry.indexOf('// Normalize persisted state')
+  );
+  const topxIndiaDate = date => {
+    if (!date) return '2026-10-24';
+    return date.toISOString().slice(0, 10);
+  };
+  const streakAsOfDate = Function('topxIndiaDate', `${helperSource}\nreturn streakAsOfDate;`)(topxIndiaDate);
+
+  const dailyActivity19To22 = Object.fromEntries([
+    '2026-10-19', '2026-10-20', '2026-10-21', '2026-10-22'
+  ].map(date => [date, { leetcode: 1, total: 1 }]));
+  assert.equal(
+    activityMetrics(dailyActivity19To22, streakAsOfDate('2026-10-22T10:00:00.000Z')).currentStreak,
+    4
+  );
+});
+
+test('submission streak helper falls back to today when last sync is missing', () => {
+  const routeRegistry = fs.readFileSync(
+    path.join(__dirname, '..', 'lib/api/route-registry.cjs'),
+    'utf8'
+  );
+  const helperSource = routeRegistry.slice(
+    routeRegistry.indexOf('function streakAsOfDate'),
+    routeRegistry.indexOf('// Normalize persisted state')
+  );
+  const topxIndiaDate = date => date ? date.toISOString().slice(0, 10) : '2026-10-24';
+  const streakAsOfDate = Function('topxIndiaDate', `${helperSource}\nreturn streakAsOfDate;`)(topxIndiaDate);
+
+  assert.equal(streakAsOfDate(undefined), '2026-10-24');
+});
+
+test('submission streak helper uses today when last sync is today', () => {
+  const routeRegistry = fs.readFileSync(
+    path.join(__dirname, '..', 'lib/api/route-registry.cjs'),
+    'utf8'
+  );
+  const helperSource = routeRegistry.slice(
+    routeRegistry.indexOf('function streakAsOfDate'),
+    routeRegistry.indexOf('// Normalize persisted state')
+  );
+  const topxIndiaDate = date => date ? date.toISOString().slice(0, 10) : '2026-10-24';
+  const streakAsOfDate = Function('topxIndiaDate', `${helperSource}\nreturn streakAsOfDate;`)(topxIndiaDate);
+
+  assert.equal(streakAsOfDate('2026-10-24T10:00:00.000Z'), '2026-10-24');
 });
 
 test('route registry has no whole-state user writes or reloads', () => {
