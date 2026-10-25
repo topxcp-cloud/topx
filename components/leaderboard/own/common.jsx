@@ -5,6 +5,16 @@ export const Flame = () => <img className="fl" src={FLAME} alt="fire" />;
 
 export const YouTag = () => <span className="you">YOU</span>;
 
+// Shown next to members whose Pro status was granted/approved from the admin panel.
+export const ProBadge = () => (
+  <span className="pro-tag" title="Top-X Pro member">
+    <svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M13 2 4 14h6l-1 8 9-12h-6z" />
+    </svg>
+    Top-X Pro
+  </span>
+);
+
 export function FriendButton() {
   return null;
 }

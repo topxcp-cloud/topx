@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import useReveal from "./hook/useReveal.js";
 import { NEW_STUDENTS, PAGE_SIZE, initials, studentKey, tagOf } from './data.js';
-import { Count, Flame, Movement, YouTag } from './common.jsx';
+import { Count, Flame, Movement, ProBadge, YouTag } from './common.jsx';
 
 function Row({ student: d, rank, rowIndex, instant, meKey, pinged, prevRank, maxScore }) {
   const [ref, visible] = useReveal(instant);
@@ -28,7 +28,10 @@ function Row({ student: d, rank, rowIndex, instant, meKey, pinged, prevRank, max
               initials(d.n)
             )}
           </span>
-          {d.n}
+          <span className="pn-name">
+            <span className="pn-text">{d.n}</span>
+            {d.isPro && <ProBadge />}
+          </span>
           {key === meKey && <YouTag />}
         </div>
         <div className="mt">{tagOf(d)}</div>

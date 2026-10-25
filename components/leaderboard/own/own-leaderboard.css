@@ -3444,3 +3444,59 @@ html:has(.own-leaderboard)::-webkit-scrollbar-thumb:hover,
   background: none!important;
   opacity: 1!important;
 }
+
+
+/* Top-X Pro badge — members granted Pro from the admin panel */
+.own-leaderboard .pro-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1.5px solid #ff7a1a;
+  background: rgba(255, 122, 26, 0.1);
+  color: #e8650a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1.4;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.own-leaderboard .pro-tag svg {
+  display: block;
+}
+
+.own-leaderboard .pn-name {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.own-leaderboard .pn-name .pn-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.own-leaderboard .pc .nm .pro-tag {
+  font-size: 10.5px;
+}
+
+@media (max-width: 700px) {
+  .own-leaderboard td:nth-child(2) .pn-name {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .own-leaderboard .pro-tag {
+    margin-left: 6px;
+    padding: 1px 6px;
+    font-size: 9px;
+  }
+}

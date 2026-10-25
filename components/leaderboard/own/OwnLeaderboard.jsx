@@ -74,6 +74,7 @@ export default function OwnLeaderboard() {
             y: Number(m.y) || null,
             c: m.c || m.section || "",
             academicYear: m.academicYear || "",
+            isPro: m.isPro === true,
           };
         });
 

@@ -1,6 +1,6 @@
 import useReveal from "./hook/useReveal.js";
 import { NEW_STUDENTS, initials, studentKey, tagOf } from './data.js';
-import { Badge, Count, Flame, Movement, YouTag } from './common.jsx';
+import { Badge, Count, Flame, Movement, ProBadge, YouTag } from './common.jsx';
 
 const SUFFIX = ['CHAMPION', 'RUNNER-UP', '3RD PLACE'];
 const DELAY = [0.3, 0.14, 0]; // bronze first, then silver, then the winner
@@ -37,6 +37,7 @@ function PodiumCard({ student: d, index: i, meKey, pinged, prevRank }) {
         <div>
           <div className="nm">
             {d.n}
+            {d.isPro && <ProBadge />}
             {key === meKey && <YouTag />}
           </div>
           <div className="tg">{tagOf(d)}</div>
