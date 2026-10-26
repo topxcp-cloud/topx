@@ -72,6 +72,20 @@ export default function AppFooter() {
               {/* <li><Link href="/about" className={styles.linkItem}>Community Standards</Link></li> */}
             </ul>
           </div>
+
+          {/* Column 5: Initiative (Right Side) */}
+          <div className={styles.initiativeCol}>
+            <div className={styles.initiative}>
+              <img
+                src="/carrier-siddhi-logo.jpeg"
+                alt="Career Siddhi Logo"
+                className={styles.initiativeLogo}
+                width={200}
+                height={103}
+                loading="lazy"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Bottom bar */}
@@ -87,6 +101,9 @@ export default function AppFooter() {
               <span>Verified Submissions Only</span>
             </div>
             <span className={styles.locationLabel}>INDIA</span>
+            <span className={styles.bottomAttribution}>
+              Top-X is the Initiative Supported by Career Sidhi
+            </span>
           </div>
         </div>
       </div>
