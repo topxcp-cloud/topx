@@ -44,12 +44,13 @@ export default function OwnLeaderboard() {
   const [page, setPage] = useState(1);
   const [instant, setInstant] = useState(false);
   const [pinged, setPinged] = useState(null);
+  const [rankingMetric, setRankingMetric] = useState("streak");
 
   useEffect(() => {
     setMe(auth.user?.name || loadMe());
   }, [auth.user?.name]);
 
-  // Load members ranked by current streak; solved counts remain supplemental.
+  // Load all members once; both ranking metrics are available for client-side sorting.
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
@@ -115,11 +116,11 @@ export default function OwnLeaderboard() {
     [selectedYear, selectedBranch, selectedSection, searchQuery]
   );
 
-  const viewKey = `${selectedYear ?? "all"}|${selectedBranch ?? "all"}|${selectedSection ?? "all"}|${searchQuery.trim()}`;
+  const viewKey = `${rankingMetric}|${selectedYear ?? "all"}|${selectedBranch ?? "all"}|${selectedSection ?? "all"}|${searchQuery.trim()}`;
 
   const { sorted: list, prevRank } = useMemo(
-    () => buildView(activeFilters, students),
-    [activeFilters, students]
+    () => buildView(activeFilters, students, rankingMetric),
+    [activeFilters, students, rankingMetric]
   );
 
   const top = list.slice(0, 3);
@@ -189,7 +190,7 @@ export default function OwnLeaderboard() {
     let switched = false;
 
     if (index < 0) {
-      targetList = buildView({}, students).sorted;
+      targetList = buildView({}, students, rankingMetric).sorted;
       index = targetList.findIndex((student) => studentKey(student) === key);
       switched = true;
     }
@@ -250,6 +251,8 @@ export default function OwnLeaderboard() {
       <MeBar
         rank={meIdx + 1}
         streak={meIdx >= 0 ? list[meIdx].currentStreak : 0}
+        score={meIdx >= 0 ? list[meIdx].s : 0}
+        metric={rankingMetric}
         onJump={() => jumpTo(meKey)}
         deps={[viewKey, page, list.length]}
       />
@@ -269,7 +272,7 @@ export default function OwnLeaderboard() {
         <div className="top">
           <h1>Leaderboard</h1>
           <p className="sub">
-            Ranked only by current streak. Problem counts are shown for reference.
+            Ranked by {rankingMetric === "streak" ? "current streak" : "problems solved"}.
           </p>
         </div>
 
@@ -309,10 +312,35 @@ export default function OwnLeaderboard() {
             </div>
 
             <div className="lb-status-bar">
-              <span className="lb-metric-badge">
-                <span className="lb-streak-fire">🔥</span>
-                Ranked by Streak
-              </span>
+              <div className="lb-ranking-options" role="group" aria-label="Rank students by">
+                <button
+                  type="button"
+                  className="lb-metric-badge"
+                  aria-pressed={rankingMetric === "streak"}
+                  onClick={() => {
+                    if (rankingMetric !== "streak") {
+                      setRankingMetric("streak");
+                      resetPaging();
+                    }
+                  }}
+                >
+                  <span className="lb-streak-fire" aria-hidden="true">🔥</span>
+                  Streak
+                </button>
+                <button
+                  type="button"
+                  className="lb-metric-badge"
+                  aria-pressed={rankingMetric === "solved"}
+                  onClick={() => {
+                    if (rankingMetric !== "solved") {
+                      setRankingMetric("solved");
+                      resetPaging();
+                    }
+                  }}
+                >
+                  Problems solved
+                </button>
+              </div>
 
               <span className="lb-count-pill" aria-live="polite">
                 <b>{list.length}</b> {list.length === 1 ? "student" : "students"}

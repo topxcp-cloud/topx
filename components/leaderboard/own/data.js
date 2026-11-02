@@ -169,18 +169,20 @@ export function inScope(d, scopeOrFilters, val) {
   return true;
 }
 
-// Sorted view of real students: current streak, then problems solved, then name A-Z.
-export function buildView(filtersOrScope, valOrStudents, maybeStudents) {
+// Sorted view of real students using the selected metric, then its tie-breaker.
+export function buildView(filtersOrScope, valOrStudents, maybeStudentsOrMetric) {
   let students = [];
   let filterParam = null;
+  let metric = 'streak';
 
   if (typeof filtersOrScope === 'object' && filtersOrScope !== null && !Array.isArray(filtersOrScope)) {
     filterParam = filtersOrScope;
     students = Array.isArray(valOrStudents) ? valOrStudents : [];
+    metric = maybeStudentsOrMetric === 'solved' ? 'solved' : 'streak';
   } else {
     const scope = filtersOrScope;
     const val = valOrStudents;
-    students = Array.isArray(maybeStudents) ? maybeStudents : [];
+    students = Array.isArray(maybeStudentsOrMetric) ? maybeStudentsOrMetric : [];
     filterParam = { scope, val };
   }
 
@@ -192,12 +194,16 @@ export function buildView(filtersOrScope, valOrStudents, maybeStudents) {
     return inScope(d, filterParam);
   });
 
-  const sorted = [...list].sort(
-    (a, b) =>
-      (Number(b.currentStreak) || 0) - (Number(a.currentStreak) || 0) ||
-      (Number(b.s) || 0) - (Number(a.s) || 0) ||
+  const sorted = [...list].sort((a, b) => {
+    const streakDifference =
+      (Number(b.currentStreak) || 0) - (Number(a.currentStreak) || 0);
+    const solvedDifference = (Number(b.s) || 0) - (Number(a.s) || 0);
+    return (
+      (metric === 'solved' ? solvedDifference : streakDifference) ||
+      (metric === 'solved' ? streakDifference : solvedDifference) ||
       String(a.n || '').localeCompare(String(b.n || ''))
-  );
+    );
+  });
   const prevRank = {};
   return { sorted, prevRank };
 }

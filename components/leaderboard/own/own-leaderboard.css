@@ -276,6 +276,25 @@ html:has(.own-leaderboard) {
   font-weight: 700;
   letter-spacing: 0.02em;
   user-select: none;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.own-leaderboard .lb-metric-badge[aria-pressed="false"] {
+  background: #FFFFFF;
+  border-color: #D4D4CE;
+  color: #525866;
+}
+
+.own-leaderboard .lb-metric-badge[aria-pressed="false"]:hover {
+  border-color: #ff7a1a;
+  color: #e86300;
+}
+
+.own-leaderboard .lb-ranking-options {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .own-leaderboard .lb-streak-fire {

@@ -29,6 +29,30 @@ test('leaderboard identity keys distinguish students with duplicate names', asyn
   assert.match(source, /studentKey\(d\)/);
 });
 
+test('leaderboard can rank students by streak or questions solved', async () => {
+  const { buildView } = await import('../components/leaderboard/own/data.js');
+  const source = fs.readFileSync(
+    path.join(__dirname, '../components/leaderboard/own/OwnLeaderboard.jsx'),
+    'utf8'
+  );
+  const students = [
+    { n: 'Streak leader', currentStreak: 12, s: 8 },
+    { n: 'Solve leader', currentStreak: 4, s: 20 },
+    { n: 'Tie breaker', currentStreak: 4, s: 8 },
+  ];
+
+  assert.deepEqual(
+    buildView({}, students, 'streak').sorted.map((student) => student.n),
+    ['Streak leader', 'Solve leader', 'Tie breaker']
+  );
+  assert.deepEqual(
+    buildView({}, students, 'solved').sorted.map((student) => student.n),
+    ['Solve leader', 'Streak leader', 'Tie breaker']
+  );
+  assert.match(source, /aria-label="Rank students by"/);
+  assert.match(source, /setRankingMetric\("solved"\)/);
+});
+
 test('leaderboard gets a compact phone layout while preserving its podium, filters, and table', () => {
   const styles = fs.readFileSync(
     path.join(__dirname, '../components/leaderboard/own/own-leaderboard.css'),

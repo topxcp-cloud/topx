@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Floating "You're #N" pill, shown whenever your own row is scrolled out of view.
-export default function MeBar({ rank, streak, onJump, deps }) {
+export default function MeBar({ rank, streak, score, metric, onJump, deps }) {
   const [on, setOn] = useState(false);
   const has = rank > 0;
   const tick = useRef(0);
@@ -41,7 +41,7 @@ export default function MeBar({ rank, streak, onJump, deps }) {
       <span id="met">
         {has && (
           <>
-            You{'\u2019'}re <b>#{rank}</b> {'\u00b7'} {streak} day streak
+            You{'\u2019'}re <b>#{rank}</b> {'\u00b7'} {metric === 'solved' ? `${score} problems solved` : `${streak} day streak`}
           </>
         )}
       </span>
