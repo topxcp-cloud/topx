@@ -21,6 +21,8 @@ import {
   Users
 } from 'lucide-react';
 
+const CODEFORCES_TASK_URL_PATTERN = /(?:\/problemset\/problem\/(\d+)\/|\/(?:contest|gym)\/(\d+)\/problem\/)([A-Za-z]\d*)(?![A-Za-z0-9])/i;
+
 export default function TasksPage() {
   const [tasks, setTasks] = useState<DailyTask[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,6 +37,7 @@ export default function TasksPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<DailyTask | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -78,6 +81,7 @@ export default function TasksPage() {
 
   const openCreateModal = () => {
     setEditingTask(null);
+    setFormError('');
     const now = new Date();
     // Default expiration: midnight or 2:00 AM next day IST
     const tomorrowMidnight = new Date(now.getTime() + 24 * 60 * 60 * 1000);
@@ -103,6 +107,7 @@ export default function TasksPage() {
 
   const openEditModal = (task: DailyTask) => {
     setEditingTask(task);
+    setFormError('');
     setFormData({
       title: task.title || '',
       platform: task.platform || 'LeetCode',
@@ -123,12 +128,17 @@ export default function TasksPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError('');
     if (!formData.title.trim()) {
       alert('Task title is required.');
       return;
     }
     if (!formData.url.trim() || !/^https:\/\//i.test(formData.url.trim())) {
       alert('A valid HTTPS problem URL is required.');
+      return;
+    }
+    if (formData.platform === 'Codeforces' && !CODEFORCES_TASK_URL_PATTERN.test(formData.url.trim())) {
+      setFormError('Could not read the Codeforces problem ID from this URL. Check the URL and try again.');
       return;
     }
 
@@ -508,7 +518,10 @@ export default function TasksPage() {
                     <select
                       className="form-select"
                       value={formData.platform}
-                      onChange={(e) => setFormData({ ...formData, platform: e.target.value as any })}
+                      onChange={(e) => {
+                        setFormError('');
+                        setFormData({ ...formData, platform: e.target.value as any });
+                      }}
                     >
                       <option value="LeetCode">LeetCode</option>
                       <option value="Codeforces">Codeforces</option>
@@ -550,10 +563,18 @@ export default function TasksPage() {
                     className="form-input"
                     placeholder="https://leetcode.com/problems/..."
                     value={formData.url}
-                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                    onChange={(e) => {
+                      setFormError('');
+                      setFormData({ ...formData, url: e.target.value });
+                    }}
                     required
                   />
                 </div>
+                {formError && (
+                  <div role="alert" style={{ padding: '10px 12px', background: 'var(--danger-soft)', border: '1px solid var(--danger)', borderRadius: 'var(--radius-md)', color: 'var(--danger)', marginBottom: '12px', fontSize: '13px' }}>
+                    {formError}
+                  </div>
+                )}
 
                 <div className="form-row" style={{ marginBottom: '12px' }}>
                   <div className="form-group">
